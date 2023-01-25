@@ -48,20 +48,24 @@ abstract class FormControlCollection<T> {
   /// Walks the [path] to find the matching control.
   ///
   /// Returns null if no match is found.
-  AbstractControl<Object>? findControlInCollection(List<String> path) {
+  AbstractControl<dynamic>? findControlInCollection(List<String> path) {
     if (path.isEmpty) {
       return null;
     }
 
-    final result = path.fold(this as AbstractControl<Object>, (control, name) {
-      if (control is FormControlCollection<dynamic>) {
-        final collection = control;
-        return collection.contains(name) ? collection.control(name) : null;
-      } else {
-        return null;
+    final result =
+        path.fold(this as AbstractControl<dynamic>?, (control, name) {
+      if (control is FormControlCollection?) {
+        final collection = control as FormControlCollection?;
+
+        return collection?.contains(name) == true
+            ? collection?.control(name)
+            : null;
       }
+
+      return null;
     });
 
-    return result != null ? result as AbstractControl<Object> : null;
+    return result;
   }
 }

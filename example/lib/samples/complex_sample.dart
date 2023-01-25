@@ -13,7 +13,7 @@ class BooleanObject {
       other is BooleanObject && name == other.name;
 
   @override
-  int get hashCode => hashValues(name, name);
+  int get hashCode => Object.hash(name, name);
 }
 
 final yes = BooleanObject('Yes');
